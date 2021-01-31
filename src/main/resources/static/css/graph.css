@@ -1,0 +1,79 @@
+@charset "UTF-8";
+
+/* ㅇinfomation */
+
+#infowrapper {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	
+}
+#infotable {
+	width: 80%;
+	height: 90%;
+	background: #fff;
+	margin: auto;	
+}
+#select1{
+	width: 50%;
+	height:10%;
+	float: left;
+	font-weight:bold;
+	border-radius:15%;
+	background: rgb(252, 201, 67,0.5);
+	transition:0.5s;
+}
+#select1:hover{
+	background: rgb(252, 201, 67);
+	box-shadow: 3px 3px 3px #000;
+}
+#select2{
+	width: 50%;
+	height:10%;
+	float: left;
+	font-weight:bold;
+	border-radius:15%;
+	background: rgb(128, 255, 0,0.5);
+	transition:0.5s;
+}
+#select2:hover{
+	background: rgb(128, 255, 0);
+	box-shadow: 3px 3px 3px #000;
+}
+#mol{
+	width: 100%;
+	height:10%;
+	clear:both;
+	background: #c0c0c0;
+}
+
+.graph{
+	width: 50%;
+	height:40%;
+	float: left;
+	display:flex;
+}
+.graph3{
+	width: 100%;
+	height:40%;
+	float: left;
+	display:flex;
+}
+.gpin{
+	width: 90%;
+	height: 90%;
+	margin:auto;
+
+}
+#gpin1,
+#gpin2,
+#gpin4{
+	width: 90%;
+	height: 90%;
+	margin:auto;
+}
+#gpin3{
+	width: 90%;
+	height: 90%;
+}
+/*원*/

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"https://logging.apache.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="erp.eee.InformationMapper">
+	
+		<!-- 그래프 에서 필요한inven_out목록 뽑아오기 !-->
+	<select id="totlist1" resultType="InformationVO">
+		SELECT name as pdname,count(name) AS cnt,SUM(outqtt*cost) AS totprice  
+		FROM INVEN_OUT 
+		WHERE outdate BETWEEN '2018-01-01 00:00:00' AND '2018-12-31 23:59:59' 
+		GROUP BY name order by cnt desc
+	</select>
+	<select id="totlist2" resultType="InformationVO">
+		SELECT name as pdname,count(name) AS cnt,SUM(outqtt*cost) AS totprice  
+		FROM INVEN_OUT 
+		WHERE outdate BETWEEN '2019-01-01 00:00:00' AND '2019-12-31 23:59:59' 	
+		GROUP BY name order by cnt desc
+	</select>
+	<select id="totlist3" resultType="InformationVO">
+	
+		SELECT name as pdname,count(name) AS cnt,SUM(outqtt*cost) AS totprice  
+		FROM INVEN_OUT 	
+		WHERE outdate BETWEEN '2020-01-01 00:00:00' AND '2020-12-31 23:59:59' 
+		GROUP BY name order by cnt desc
+	</select>
+	
+	<select id="totprice1" resultType="InformationVO">
+	SELECT SUM(totprice) as totprice FROM (SELECT name as pdname,count(name) AS cnt,SUM(outqtt*cost) AS totprice  
+		FROM INVEN_OUT 
+		WHERE outdate BETWEEN '2018-01-01 00:00:00' AND '2018-12-31 23:59:59' 
+		GROUP BY name order by cnt desc)
+	</select>
+	<select id="totprice2" resultType="InformationVO">
+	SELECT SUM(totprice)  as totprice FROM (SELECT name as pdname,count(name) AS cnt,SUM(outqtt*cost) AS totprice  
+		FROM INVEN_OUT 
+		WHERE outdate BETWEEN '2019-01-01 00:00:00' AND '2019-12-31 23:59:59' 
+		GROUP BY name order by cnt desc)
+	</select>
+	<select id="totprice3" resultType="InformationVO">
+	SELECT SUM(totprice) as totprice FROM (SELECT name as pdname,count(name) AS cnt,SUM(outqtt*cost) AS totprice  
+		FROM INVEN_OUT 
+		WHERE outdate BETWEEN '2020-01-01 00:00:00' AND '2020-12-31 23:59:59' 
+		GROUP BY name order by cnt desc)
+	</select>
+	
+	
+	
+	<select id="monthtot" resultType="InformationVO" parameterType="java.lang.Integer">	
+		SELECT (sum(COST) * sum(OUTQTT)) AS monthtot 
+		FROM (SELECT OUTDATE ,TO_CHAR(OUTDATE,'yyyyMM') AS OUTday,COST,OUTQTT  
+		FROM INVEN_OUT
+		WHERE TO_CHAR(OUTDATE,'yyyyMM') in 
+		<![CDATA[
+		(SELECT TO_CHAR(ADD_MONTHS(TO_DATE(#{year}||'01', 'YYYYMM')
+		     , LEVEL - 1 ),'YYYYMM') AS MONTHS
+		  FROM DUAL
+		CONNECT BY LEVEL <= MONTHS_BETWEEN( TO_DATE(#{year}||'12'
+		      , 'YYYYMM' ), TO_DATE(#{year}||'01', 'YYYYMM' ) ) + 1
+		]]>
+		     ))  
+		    GROUP BY outday
+		   	ORDER BY OUTDAY ASC 
+	</select>
+	
+	
+</mapper>

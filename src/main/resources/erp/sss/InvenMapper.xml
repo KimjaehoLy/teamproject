@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"https://logging.apache.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="erp.sss.InvenMapper">
+
+	
+	
+	<!-- 재고현황 !-->
+	<select id="list" resultType="InvenVO" parameterType="java.lang.Integer">
+	<![CDATA[
+		select * from(select rownum rnum, t1.* from 
+        (select * from inven order by regdate desc)t1) 
+        where rnum >= #{start} and rnum <= #{end}
+        ]]>
+	</select>
+
+	<select id="totalCnt" resultType="java.lang.Integer">
+		select count(*) from inven
+	</select>
+
+		
+	<!-- 재고 검색 !-->
+	<select id="listSch" resultType="InvenVO" parameterType="SearchVO">
+	
+        select * from(select rownum rnum, t1.* from
+         (select * from inven 
+         WHERE code like '%'||#{search,jdbcType=VARCHAR}||'%'
+         AND name like '%'||#{search1,jdbcType=VARCHAR}||'%' 
+         AND possi like '%'||#{search2,jdbcType=VARCHAR}||'%' 
+         order by possi, regdate desc
+         ) t1)
+         <![CDATA[ 
+         where rnum >= #{searchstart} and rnum <= #{searchend}
+        ]]>
+	</select>
+	
+	<select id="searchCnt" resultType="java.lang.Integer" parameterType="SearchVO">
+		select count(*) from inven 
+		 WHERE code like '%'||#{search,jdbcType=VARCHAR}||'%'
+         AND name like '%'||#{search1,jdbcType=VARCHAR}||'%' 
+         AND possi like '%'||#{search2,jdbcType=VARCHAR}||'%' 
+         order by possi, regdate desc
+	</select>
+	
+	
+	
+	
+	<!-- 출고이력 !-->
+	<select id="outlist" resultType="Inven_outVO" parameterType="SearchVO">
+	<![CDATA[
+		select * from(select rownum rnum, t1.* from 
+        (select * from Inven_out 
+        WHERE outno like '%'||#{search,jdbcType=VARCHAR}||'%'
+	    AND outch like '%'||#{search1,jdbcType=VARCHAR}||'%' 
+	    order by outdate desc)t1) 
+        where rnum >= #{searchstart} and rnum <= #{searchend}
+        ]]>
+	</select>
+	
+	<select id="outtotalCnt" resultType="java.lang.Integer">
+		select count(*) from inven_out
+		WHERE outno like '%'||#{search,jdbcType=VARCHAR}||'%'
+	    AND outch like '%'||#{search1,jdbcType=VARCHAR}||'%' 
+	    order by outdate desc
+	</select>
+	
+	<!-- 출고의뢰 조회 !--> 
+	<select id="outlistSch" resultType="ComissionVO" parameterType="SearchVO">
+	<![CDATA[
+	        select * from(select rownum rnum, t1.* from
+	         (select * from marketing_2 
+	         WHERE order_num2 like '%'||#{search,jdbcType=VARCHAR}||'%'
+	         AND kind like '%'||#{search1,jdbcType=VARCHAR}||'%' 
+	         AND cnt != 0
+	         order by regdate desc) t1) 
+	         where rnum >= #{searchstart} and rnum <= #{searchend}
+	        ]]>
+	</select> 
+	
+	<select id="outsearchCnt" resultType="java.lang.Integer" parameterType="Inven_outVO">
+		select count(*) from marketing_2 
+		 WHERE order_num2 like '%'||#{search,jdbcType=VARCHAR}||'%'
+	     AND kind like '%'||#{search1,jdbcType=VARCHAR}||'%' 
+	     order by regdate desc
+	</select>
+	
+
+	
+	
+	
+	
+	
+	<!-- 재고상세 !-->
+	<select id="detail" resultType="InvenVO" parameterType="java.lang.String">
+		select * from inven where code = #{code}
+	</select>
+
+
+	
+	
+	<sql id="noMax">
+		(select max(no)+1 from inven)
+	</sql>
+	
+	<!-- 재고등록 !-->
+	<insert id="insert" parameterType="InvenVO">
+		insert into inven 
+		(code, name, qtt, no, cost, content, client, possi, regdate)
+		values
+		(#{code}, #{name}, #{qtt}, #{no,jdbcType=VARCHAR}, #{cost}, #{content}, #{client}, #{possi},sysdate)
+	</insert>
+
+	<!-- 출고등록 !-->
+   <insert id="outinsert" parameterType="Inven_outVO">
+      insert into inven_out 
+      (outno, code, name, qtt, client, cost, content, outch, outdate, regdate)
+      values
+      (#{outno},#{code},#{name},#{qtt},#{client},#{cost},#{content},#{outch},
+      TO_DATE(#{outdate},'YYYY-MM-DD'),
+      sysdate)
+   </insert>
+
+
+	<!-- 재고수정 !-->
+	<update id="modify" parameterType="InvenVO">
+		update inven
+		set
+			qtt = #{qtt},
+			cost = #{cost}, 
+			content = #{content}, 
+			client = #{client}
+		
+		where code = #{code}
+	</update>
+	
+
+	<!-- 출고수정 !-->
+	<insert id="outmodify" parameterType="Inven_outVO">
+      insert into inven_out 
+      (outno, code, name, qtt, outqtt, client, cost, content, outch, outdate, regdate)
+      values
+      (#{outno},#{code},#{name},#{qtt},#{outqtt},#{client},#{cost},#{content},#{outch},
+      TO_DATE(#{outdate},'YYYY-MM-DD'), sysdate)
+   </insert>
+   
+   	<!-- 출고상세 !-->
+	<select id="outdetail" resultType="ComissionVO" parameterType="java.lang.String">
+		select * from marketing_2 where order_num2 = #{order_num2}
+	</select>
+   
+   	<!-- 출고에 맞는 재고 !-->
+	<select id="outindetail" resultType="InvenVO" parameterType="SearchVO">
+		<![CDATA[
+		select * from(select rownum rnum, t1.* from 
+        	(select * from inven where name = #{search} 
+        	AND possi = '가능' 
+        	AND qtt != 0
+        	order by regdate desc)t1) 
+        where rnum >= #{searchstart} and rnum <= #{searchend}
+        ]]>
+	</select>
+
+	<select id="outinCnt" resultType="java.lang.Integer">
+	select count(*) from inven
+		 WHERE possi = '가능'
+		 order by regdate desc
+	</select>
+	
+	<!-- 재고삭제 !-->
+	<delete id = "delete" parameterType="InvenVO">
+		delete from inven where code = #{code}
+	</delete>
+	<!-- 출고삭제 !-->
+	<delete id = "outdelete" parameterType="Inven_outVO">
+		delete from inven_out where outno = #{outno}
+	</delete>
+	
+	
+	
+	
+	
+	<!-- 테스트 합격 확인후 거래 가능으로 변경 !-->
+	<update id="qlinvenmodify" parameterType="QlTestHistoryVO">
+		update inven
+		set
+		possi = '가능'
+		where code = #{pdcode}
+	</update>	
+	<!-- 테스트 불합격 확인후 불가능 + 수량제거 !-->
+	<update id="qlinvenfailmodify" parameterType="QlTestHistoryVO">
+		update inven
+		set
+		possi = '불가능',
+		qtt = qtt-#{qlcnt}
+				
+		where code = #{pdcode} and possi = '대기'
+	</update>	
+	
+	<!--인벤 확인할 정보 테스트 합격정보 !	-->
+	<select id="testinvenchk" resultType="QlTestHistoryVO" parameterType="string">
+	  select * from qltesthistory where qlstate = #{pass}
+	</select>
+	
+	
+	<select id="invenimpomodify" resultType="ComissionVO" parameterType="string">
+      select * from marketing_2 where order_num2 like '%'||#{code}||'%'
+   	</select> 
+   	
+	<!-- Inven_out의 outch가 완료일 때 (Inven)qtt - (Inven_out)outqtt 빠지기.. !-->
+	<update id="outchkmodify" parameterType="Inven_outVO">
+		update inven
+		set
+		qtt = qtt-#{outqtt}
+		where code = #{code} and #{outch} = '완료' and possi = '가능'
+	</update>
+	
+	<!-- Inven_out의 outch가 완료일 때 (marketing_2)cnt - (Inven_out)outqtt 빠지기.. !-->
+	<update id="outqttmodify" parameterType="Inven_outVO">
+		update marketing_2
+		set
+		cnt = cnt-#{outqtt}
+		where order_num2 = #{outno} and #{outch} = '완료' 
+	</update>
+	
+	
+	<!-- 재고등록/재고수정/출고의뢰수정에서 체크할 재고코드 code !-->
+	<select id="codeChk" resultType="java.lang.Integer"  parameterType="java.lang.String">
+		select count(code) from inven where code = #{code}
+	</select>
+
+	<select id="costChk" resultType="java.lang.Integer"  parameterType="java.lang.String">
+		select count(cost) from inven where cost = #{cost}
+	</select>
+	
+	<!-- 재고등록/재고수정에서 체크할 거래처명 crre_name !-->
+	<select id="clientChk" resultType="java.lang.Integer"  parameterType="java.lang.String">
+		select count(crre_name) from correpondent where crre_name=#{crre_name}
+	</select>
+
+</mapper>

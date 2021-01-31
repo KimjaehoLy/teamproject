@@ -1,0 +1,240 @@
+@charset "UTF-8";
+
+* {
+   margin: 0px;
+   padding: 0px;
+}
+
+html, body {
+   width: 100%;
+   height: 100%;
+   overflow: hidden;
+}
+
+header { /* 로고 네비게이션바 영역 */
+   margin: 0px auto;
+   width: 100%;
+   height: 8%;
+   /* background: rgba(254,67,101); */
+    background: rgb(128, 128, 192,0.4);
+   /*  background: #596778; */
+   /* background: rgba(100, 100, 100, 0.1); */
+   /* rgba(100,100,100,0.2) */
+}
+aside { /* 왼쪽 목록 */
+   width: 10%;
+   height: 92%;
+   float: left;
+   text-align: center;
+   background: rgb(128, 128, 192,0.4);
+   /* background: #596778; */
+   /* background: rgba(100, 100, 100, 0.1); */
+}
+
+section {
+   width: 90%;
+   height: 92%;
+   float: left;
+   display: inline-block;
+}
+
+table{
+	width: 100%
+}
+
+article {
+   width: 100%;
+   height: 100%;
+   /* border: 1px solid #000; */
+}
+
+article:nth-of-type(1) {
+   width: 100%;
+   height: 92%;
+}
+
+article:nth-of-type(1)>div:nth-of-type(1)>form:nth-of-type(1)>div {
+   float: left;
+   margin-left: 15%;
+   line-height: 35px;
+}
+
+article:nth-of-type(1)>div:nth-of-type(1)>form:nth-of-type(2)>div {
+   line-height: 37px;
+}
+
+
+.bottom {
+   width: 100%;
+   height: 66.5%;
+   overflow: auto;
+}
+
+.bottom>table {
+   text-align: center;
+}
+
+nav {   /* 네비게이션 너비, 높이 지정 오른쪽에 나타나게 플로트 */
+   width: 30%;
+   height: 92%;
+   float: right;
+   
+}
+
+nav div:nth-of-type(1){ /* 달력 버튼 : 너비, 높이 위치 */
+   margin-top:3%;
+   margin-left:65%;
+   width: 30px;
+   height: 30px;
+
+}
+nav div:nth-of-type(1) > button{ /* 달력 버튼 : 너비, 높이 위치 */
+   border: none;
+}
+
+ol {
+   list-style: none;
+}
+
+nav>ol li {   /* 네비게이션 안의 글씨들 마진 */
+   float: left;
+   margin-left: 5%;
+   margin-top: 3%;
+
+}
+nav>ol li > a {   /* 네비게이션 안의 글씨 */
+   color: #fff;
+   font-weight: bold;
+}
+nav>ol li > a:hover {   /* 네비게이션 안의 글씨 */
+   color: #000;
+   text-decoration:none;
+   font-weight: bold;
+}
+
+h2 {
+   text-align: center;
+   padding-top: 1%;
+}
+
+img { /* 로고 화질 좋게  */
+   width: 50%;
+   height: 50%;
+   margin: auto;
+}
+
+#logo { /* 로고 이미지 크기 */
+   width: 15%;
+   height: 100%;
+   float:left;
+   margin-left: 10%;
+   display: flex;
+}
+#logo > a {
+	width: 100%;
+	height: 100%;
+	display: flex;
+}
+
+.aside_box {
+   /* 메인에서 OO관리를 눌렀을 때 관리별 가지고 있는 기능이 달라 너비 높이 line-height는 알아서 조절하기를 권장 height을 잠정적으로 100%로 해놨지만 px로 값을 주길 권장*/
+   width: 100%;
+   height: 100%;
+   float: left;
+
+   /* background: rgba(100, 100, 100, 0.1); */
+}
+
+.aside_box>ol>li { /* include aside 부분 데코레이션 담당 */
+   display: flex;
+   flex-direction: row;
+   justify-content: space-around;
+   width: 100%;
+   height: 100%;
+   float: left;
+   text-align: center;
+   line-height: 70px;
+   font-weight: bold;
+}
+
+.aside_box>ol>li>button {
+   width: 100%;
+   height: 100%;
+   padding: 15%;
+   color: #000;
+   box-shadow: 0px 2px 1px  rgba(100, 100, 100, 0.6);
+   font-weight: bold;
+   border-radius: 0%;
+   border: 0px;
+}
+.aside_box>ol>li>button:hover{
+	background: rgb(83, 172, 45);
+	
+	box-shadow: 0px 3px 10px rgb(83, 172, 45); 
+}
+
+a {
+   display: block;
+   text-decoration: none;
+}
+
+
+.funcc>form>div:nth-last-of-type(1){
+   margin-left: 42%;
+   margin-top: 1%;
+}
+#logo > a {
+	width: 100%;
+	height: 100%;
+}
+
+.table .table-success th{
+   background: #c3e6cb;
+   border-color: #c3e6cb;
+} 
+.profileImg { /* 현수꺼 기준 */
+	width: 180px;
+	height: 250px;
+}
+.user_align{
+	text-align: center;
+}
+.page1{
+	width: 100%;
+	height: 75%
+}
+.page2{
+	width: 100%;
+	height: 40%;
+}
+.note_page{
+   width: 100%;
+   height: 80%;
+   overflow: auto;
+}
+#layout { /* 전부를 둘러싸고 있는 div */
+	width: 100%;
+	height: 100%;
+	margin-top:3%;
+}
+.noteImg{
+	width: 10%;
+	height: 85%;
+	margin-left:24.5%;
+	float: left;
+	text-align: center;
+}
+.noteImg>img{
+	width: 100%;
+	height: 100%;
+}
+.note_tb{
+	text-align: center;
+}
+.note_DD{
+	margin-top:1%;
+	float: right;
+}
+.note_SS{
+	margin-left: 44%;
+}

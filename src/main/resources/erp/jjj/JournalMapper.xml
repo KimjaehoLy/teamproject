@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"https://logging.apache.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="erp.jjj.JournalMapper">
+
+
+
+
+	<select id="list" resultType="journalVO" parameterType="java.lang.Integer">
+	<![CDATA[
+		select * from(select rownum rnum, t1.* from 
+        (select * from journal)t1) 
+        where rnum >= #{start} and rnum <= #{end}
+        ]]>
+	</select>
+	
+	<select id="totalCnt" resultType="java.lang.Integer">
+		select count(*) from journal
+	</select>
+	
+	<select id="search" resultType="journalVO" parameterType="SearchVO">
+	<![CDATA[
+        select * from(select rownum rnum, t1.* from
+         (select * from journal WHERE sucode like '%'||#{search,jdbcType=VARCHAR}||'%') t1) 
+         where rnum >= #{searchstart} and rnum <= #{searchend}
+        ]]>
+	</select>
+	
+	<select id="searchCnt" resultType="java.lang.Integer" parameterType="SearchVO">
+		select count(*) from journal where sucode like '%'||#{search,jdbcType=VARCHAR}||'%'
+	</select>
+	
+	<select id="detail" resultType="journalVO" parameterType="java.lang.Integer">
+		select * from journal where jou_no = #{jou_no}
+	</select>
+	
+	<sql id="noMax">
+		(select max(jou_no)+1 from journal)
+	</sql>
+	
+<!-- 	<sql id="username">
+		(select * from loginuser where usercode = #{code})
+	</sql> -->
+	
+	<insert id="insert" parameterType="journalVO">
+		<selectKey keyProperty="jou_no" resultType="java.lang.Integer" order="BEFORE">
+			<include refid="noMax"/>
+		</selectKey> 
+		insert into journal 
+		(jou_no, deprice ,creprice, desubj, cresubj, sucode, regdate, account)
+		values
+		(#{jou_no,jdbcType=VARCHAR}, #{deprice,jdbcType=VARCHAR}, #{creprice,jdbcType=VARCHAR}, #{desubj,jdbcType=VARCHAR}, #{cresubj,jdbcType=VARCHAR}, #{sucode,jdbcType=VARCHAR}, sysdate, #{account,jdbcType=VARCHAR})
+	</insert>
+	
+	<update id="modify" parameterType="journalVO">
+		UPDATE JOURNAL SET desubj=#{desubj,jdbcType=VARCHAR},deprice =#{deprice,jdbcType=INTEGER},cresubj=#{cresubj,jdbcType=VARCHAR},creprice=#{creprice,jdbcType=INTEGER},sucode=#{sucode,jdbcType=VARCHAR},account=#{account,jdbcType=VARCHAR} WHERE sucode=#{sucode} 
+	</update>
+	
+	
+	<delete id = "delete" parameterType="journalVO">
+		delete from journal where sucode = #{sucode}
+	</delete>
+	
+</mapper>

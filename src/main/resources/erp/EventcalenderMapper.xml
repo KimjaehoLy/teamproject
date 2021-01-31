@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"https://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="erp.EventcalenderMapper">
+
+
+	<select id="list" resultType="EventcalenderVO">
+		select * from eventcalender 
+	</select> 
+	
+	<insert id="addEvent" parameterType="EventcalenderVO">
+		insert into Eventcalender 
+		(eve_start, eve_subject)
+		values
+		(#{eve_start,jdbcType=VARCHAR}, #{eve_subject,jdbcType=VARCHAR})
+	</insert>
+	
+	<delete id = "deleteEvent" parameterType="EventcalenderVO">
+		delete from Eventcalender where eve_subject = #{eve_subject}
+	</delete>
+	
+	
+	<sql id="noMax">
+		(select max(jou_no)+1 from journal)
+	</sql>
+	
+</mapper>
+

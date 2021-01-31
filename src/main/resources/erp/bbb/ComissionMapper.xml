@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"https://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="erp.bbb.ComissionMapper">
+
+<select id="list" resultType="comissionVO" parameterType="java.lang.Integer">
+	<![CDATA[
+	select * from(select rownum rnum, t1.* from 
+	(select * from marketing_2 order by order_num2 desc)t1) 
+	where rnum >= #{start} and rnum <= #{end}
+	]]>
+</select>
+<select id="search" resultType="comissionVO" parameterType="SearchVO">
+	<![CDATA[
+	select * from(select rownum rnum, t1.* from (select * from marketing_2
+	 WHERE order_num2 like '%'||#{search1,jdbcType=VARCHAR}||'%' and customer like '%'||#{search2,jdbcType=VARCHAR}||'%'
+	order by order_num2 desc) t1) 
+         where rnum >= #{searchstart} and rnum <= #{searchend}
+        ]]>	
+	</select>
+		<select id="searchCnt" resultType="java.lang.Integer" parameterType="SearchVO">
+		select count(*) from marketing_2 where order_num2 like '%'||#{search1,jdbcType=VARCHAR}||'%' and customer like '%'||#{search2,jdbcType=VARCHAR}||'%'
+	</select>
+
+	<select id="totalCnt" resultType="java.lang.Integer">
+		select count(*) from marketing_2
+	</select>
+	
+	<insert id="insert" parameterType="comissionVO">
+	INSERT INTO marketing_2 (order_num2,customer,kind,cnt,chk,regdate,leader,content)VALUES(#{order_num2},#{customer},#{kind},#{cnt},#{chk},sysdate,#{leader},#{content})
+	</insert>
+	<update id="update" parameterType="comissionVO">
+		<![CDATA[
+		update marketing_2 set customer = #{customer}, cnt = #{cnt}, kind= #{kind}, leader = #{leader}, content = #{content}  where order_num2 = #{order_num2}
+		]]>
+	</update>
+		<update id="modify" parameterType="comissionVO">
+		<![CDATA[
+		update marketing_2 set chk = '승인완료' where order_num2 = #{order_num2}
+		]]>
+	</update>
+	<delete id = "delete" parameterType="comissionVO">
+		delete from marketing_2 where order_num2 = #{order_num2}
+	</delete>
+	
+	<select id="chk1" resultType="java.lang.String"  parameterType="java.lang.String">
+	select crre_name from correpondent where crre_name=#{crre_name}
+</select>
+
+<select id="chk2" resultType="java.lang.String"  parameterType="java.lang.String">
+	select order_num2 from marketing_2 where order_num2 = #{order_num2}
+</select>
+
+</mapper>

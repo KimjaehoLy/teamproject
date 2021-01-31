@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"https://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="erp.page.NoteMapper">
+	<select id="list" resultType="noteVO" parameterType="SearchVO">
+		<![CDATA[
+        select * from(select rownum rnum, t1.* from
+         (select * from note WHERE tou = #{search}) t1) 
+         where rnum >= #{searchstart} and rnum <= #{searchend}
+        ]]>
+	</select>
+	
+	<select id="totalCnt" resultType="java.lang.Integer">
+		select count(*) from note where tou = #{tou}
+	</select>
+
+	<delete id = "delete" parameterType="noteVO">
+		delete from note where note_num = #{note_num}
+	</delete>
+	
+	<select id="listT" resultType="noteVO" parameterType="SearchVO">
+		<![CDATA[
+        select * from(select rownum rnum, t1.* from
+         (select * from note WHERE fromu = #{search}) t1) 
+         where rnum >= #{searchstart} and rnum <= #{searchend}
+        ]]>
+	</select>
+	
+	<select id="totalCntT" resultType="java.lang.Integer">
+		select count(*) from note where fromu = #{fromu}
+	</select>
+	
+	
+
+	
+	<sql id="noMax">
+		(select max(note_num)+1 from note)
+	</sql>
+	
+	<insert id="insert" parameterType="noteVO">
+		<selectKey keyProperty="note_num" resultType="java.lang.Integer" order="BEFORE">
+			<include refid="noMax"/>
+		</selectKey> 
+		INSERT INTO note (note_content,fromu,tou,regdate,note_num,note_detail)VALUES(#{note_content},#{fromu},#{tou},sysdate,#{note_num},#{note_detail,jdbcType=VARCHAR})
+	</insert>
+	
+	<select id="detail" resultType="noteVO" parameterType="noteVO">		
+        select * from note WHERE note_num = #{note_num}        
+	</select>
+	
+	<update id="chk" parameterType="noteVO">
+		UPDATE note SET note_chk = 1 WHERE note_num=#{note_num} 
+	</update>
+	
+	
+</mapper>
+

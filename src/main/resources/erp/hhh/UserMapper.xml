@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"https://logging.apache.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="erp.hhh.UserMapper">
+	
+	
+	<!-- 유저 검색 -->
+	<select id="user_allList" resultType="userVO" parameterType="userVO"> 
+		<!-- select * from users where title like '%' || #{title} || '%' -->
+				select * from users
+				<if test="user_cate != '' and user_cate != null"> 
+					where user_cate like '%${user_cate}%'
+				</if>
+				<if test="user_lev != '' and user_lev != null"> 
+					where user_lev like '%${user_lev}%'
+				</if>
+				<if test="user_name != '' and user_name != null"> 
+					where user_name like '%${user_name}%'
+				</if>	
+				 ORDER BY USER_NAME 
+				 <!--ORDER BY USER_num -->
+	</select>
+	
+	<select id="joinIdChk" resultType="java.lang.Integer" parameterType="userVO"> 
+		select count(*) from users where user_id = #{user_id}
+	</select>
+	
+	<!-- 사원 행 갯수 -->
+	<select id="user_listTotCnt" resultType="java.lang.Integer" parameterType="SearchVO"> 
+		select count(*) from users  where  
+					user_cate like '%'||#{search1}||'%'
+				 
+					and user_lev like '%'||#{search2}||'%'
+				 
+					and user_name like '%'||#{search3}||'%'
+				
+	</select>
+	
+	
+	
+	
+	<!-- 유저 검색 -->
+	<select id="user_list" resultType="userVO" parameterType="SearchVO"> 
+		<!-- select * from users where title like '%' || #{title} || '%' -->
+			
+				select * from(select rownum rnum, t1.* from (select * from users where 
+				
+					 user_cate like '%'||#{search1}||'%'
+				
+				 
+					and user_lev like '%'||#{search2}||'%'
+				
+				 
+					and user_name like '%'||#{search3}||'%'
+				
+		<![CDATA[				
+				 ORDER BY USER_NAME)t1)where rnum >= #{searchstart} and rnum <= #{searchend}
+			]]>
+				 <!--ORDER BY USER_num -->
+				 
+	</select>
+	
+	
+	
+	<!-- 유저 상세 -->
+	<select id="user_detail" resultType="userVO" parameterType="java.lang.String">
+		select * from users where user_id = #{user_id}
+	</select>
+	
+	
+	<!-- 사원 추가 -->
+	<!--인클루드 코드-->
+	<sql id="numMax">
+		(select max(user_num)+1 from users) <!-- no 최댓값에 +1 추출  -->
+	</sql>
+	
+	<insert id="user_insert" parameterType="userVO">
+		<!-- sql실행전에 userVO.num에 넣음 noMax를 타입은 integer야 -->
+		<selectKey keyProperty="user_num" resultType="java.lang.Integer" order="BEFORE">
+			<include refid="numMax" />
+		</selectKey>
+		
+		INSERT INTO users (user_num, user_name, user_id, user_pw, user_tel,user_add, user_email, 
+		user_cate, user_lev, user_file, user_gender, user_rrn, user_date, USER_pay, user_career) 
+		values(#{user_num}, #{user_name}, #{user_id}, #{user_pw}, #{user_tel}, #{user_add}, #{user_email},
+		 #{user_cate}, #{user_lev}, #{user_file}, #{user_gender}, #{user_rrn}, sysdate, #{user_pay}, #{user_name})
+	</insert>
+	
+	<select id="logindata" resultType="userVO" parameterType="String">
+        SELECT * FROM users where USER_ID=#{acce_id,jdbcType=VARCHAR}
+    </select>
+    
+	<!-- 유저 정보 수정 -->
+	<update id="user_modify" parameterType="userVO">
+			update users 
+			set user_name = #{user_name}, user_rrn = #{user_rrn},
+			 user_email = #{user_email}, user_tel = #{user_tel}, user_add = #{user_add}, user_gender = #{user_gender},
+			 user_cate = #{user_cate}, user_lev = #{user_lev}
+			 <if test = "user_file != null and user_file != ''">
+			  	,user_file = #{user_file}
+			 </if>
+			 <if test = "user_pay != null and user_pay != ''">
+			  	, user_pay = #{user_pay}
+			 </if>
+			where user_id = #{user_id}
+	</update>
+	
+	<!-- 유저 정보 삭제 -->
+	<delete id = "user_delete" parameterType="UserVO">
+		delete from users where user_id = #{user_id}
+	</delete>
+	
+	<!-- 유저 월급 수정 -->
+	<update id="user_salModify" parameterType="userVO">
+			update users 
+			set user_pay = #{user_pay}
+			where user_id = #{user_id}
+	</update>
+</mapper>
+

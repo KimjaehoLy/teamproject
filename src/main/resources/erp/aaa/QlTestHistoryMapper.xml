@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"https://logging.apache.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="erp.aaa.QlTestHistoryMapper">
+
+	
+	<!--검사이력 검색   !	-->
+	<select id="historylistSch" resultType="QlTestHistoryVO" parameterType="SearchVO">
+		select * from(select rownum rnum, t1.* from
+         (select * from qltesthistory 
+         where pdcode like '%'||#{search1,jdbcType=VARCHAR}||'%' and       
+       	 qlpdname like '%'||#{search2,jdbcType=VARCHAR}||'%' and 
+		 qlstate like '%'||#{search3,jdbcType=VARCHAR}||'%' 
+         order by regdate desc
+		)t1) 
+       <![CDATA[	
+        where rnum >= #{searchstart} and rnum <= #{searchend}
+        ]]>
+	</select>
+	<select id="totalCnt4" resultType="java.lang.Integer" parameterType="SearchVO">
+		select count(*) from qltesthistory
+		 where pdcode like '%'||#{search1,jdbcType=VARCHAR}||'%' and       
+       	 qlpdname like '%'||#{search2,jdbcType=VARCHAR}||'%' and 
+		 qlstate like '%'||#{search3,jdbcType=VARCHAR}||'%' 
+         order by regdate desc		
+	</select>
+	
+	<!--검사이력 상세정보   !	-->
+	<select id="historydetail" resultType="QlTestHistoryVO" parameterType="java.lang.String">
+		select * from qltesthistory where pdcode = #{pdcode}
+	</select>
+	
+	
+	<!-- 품질 이력 삭제   ! -->
+	<delete id = "historydelete" parameterType="QlTestHistoryVO">
+		delete from qltesthistory where pdcode = #{pdcode}
+	</delete>
+	
+	<delete id = "historydeletetwo" parameterType="string">
+	delete 
+	from 
+	qltesthistory
+	where pdcode = #{vo}
+	</delete>
+	
+</mapper>

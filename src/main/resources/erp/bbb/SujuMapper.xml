@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"https://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="erp.bbb.SujuMapper">
+
+<select id="list" resultType="sujuVO" parameterType="java.lang.Integer">
+	<![CDATA[
+	select * from(select rownum rnum, t1.* from 
+	(select * from marketing_1 order by order_num1 desc)t1) 
+	where rnum >= #{start} and rnum <= #{end}
+	]]>
+</select>
+
+	<select id="search" resultType="sujuVO" parameterType="SearchVO">
+	<![CDATA[
+	select * from(select rownum rnum, t1.* from (select * from marketing_1
+	 WHERE order_num1 like '%'||#{search1,jdbcType=VARCHAR}||'%' and customer like '%'||#{search2,jdbcType=VARCHAR}||'%'
+	order by order_num1 desc) t1) 
+         where rnum >= #{searchstart} and rnum <= #{searchend}
+        ]]>	
+	</select>
+		<select id="searchCnt" resultType="java.lang.Integer" parameterType="SearchVO">
+		select count(*) from marketing_1 where order_num1 like '%'||#{search1,jdbcType=VARCHAR}||'%' and customer like '%'||#{search2,jdbcType=VARCHAR}||'%'
+	</select>
+
+	<select id="totalCnt" resultType="java.lang.Integer">
+		select count(*) from marketing_1
+	</select>
+	
+	<insert id="insert" parameterType="sujuVO">
+	INSERT INTO marketing_1 (order_num1,customer,tex,cost_s,leader,regdate,content)VALUES(#{order_num1},#{customer},#{tex},#{cost_s},#{leader},sysdate,#{content})
+	</insert>
+	<update id="update" parameterType="sujuVO">
+		<![CDATA[
+		update marketing_1 set customer = #{customer}, tex = #{tex}, cost_s= #{cost_s}, leader = #{leader}, content = #{content}  where order_num1 = #{order_num1}
+		]]>
+	</update>
+	<delete id = "delete" parameterType="sujuVO">
+		delete from marketing_1 where order_num1 = #{order_num1}
+	</delete>
+
+<select id="chk1" resultType="java.lang.String"  parameterType="java.lang.String">
+	select crre_name from correpondent where crre_name=#{crre_name}
+</select>
+
+<select id="chk2" resultType="java.lang.String"  parameterType="java.lang.String">
+	select order_num1 from marketing_1 where order_num1 = #{order_num1}
+</select>
+</mapper>
+

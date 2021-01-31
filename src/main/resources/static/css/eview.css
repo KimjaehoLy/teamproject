@@ -1,0 +1,376 @@
+@charset "UTF-8";
+
+* {
+   margin: 0px;
+   padding: 0px;
+}
+
+html, body {
+   width: 100%;
+   height: 100%;
+   overflow: hidden;
+}
+
+header { /* 로고 네비게이션바 영역 */
+   margin: 0px auto;
+   width: 100%;
+   height: 8%;
+   background: #fff;
+   background: rgb(128, 128, 192,0.4);
+   /*  background: #596778; */
+   /* background: rgba(100, 100, 100, 0.1); */
+   /* rgba(100,100,100,0.2) */
+}
+aside { /* 왼쪽 목록 */
+   width: 10%;
+   height: 92%;
+   float: left;
+   text-align: center;
+   background: #fff;
+   background: rgb(128, 128, 192,0.4);
+   /* background: #596778; */
+   /* background: rgba(100, 100, 100, 0.1); */
+}
+
+section {
+   width: 90%;
+   height: 100%;
+   float: left;
+   display: inline-block;
+}
+
+article {
+   width: 100%;
+   height: 100%;
+
+}
+
+article:nth-of-type(1) {
+   width: 100%;
+   height: 92%;
+}
+
+article:nth-of-type(1)>div:nth-of-type(1)>form:nth-of-type(1)>div {
+   float: left;
+   margin-left: 15%;
+   line-height: 35px;
+}
+
+article:nth-of-type(1)>div:nth-of-type(1)>form:nth-of-type(2)>div {
+   line-height: 37px;
+}
+
+
+.bottom {
+   width: 100%;
+   height: 66.5%;
+   overflow: auto;
+}
+
+nav {   /* 네비게이션 너비, 높이 지정 오른쪽에 나타나게 플로트 */
+   width: 30%;
+   height: 92%;
+   float: right;
+   
+}
+
+nav div:nth-of-type(1){ /* 달력 버튼 : 너비, 높이 위치 */
+   margin-top:3%;
+   margin-left:65%;
+   width: 30px;
+   height: 30px;
+
+}
+nav div:nth-of-type(1) > button{ /* 달력 버튼 : 너비, 높이 위치 */
+   border: none;
+}
+
+ol {
+   list-style: none;
+}
+
+nav>ol li {   /* 네비게이션 안의 글씨들 마진 */
+   float: left;
+   margin-left: 5%;
+   margin-top: 3%;
+
+}
+nav>ol li > a {   /* 네비게이션 안의 글씨 */
+   color: #fff;
+   font-weight: bold;
+}
+nav>ol li > a:hover {   /* 네비게이션 안의 글씨 */
+   color: #000;
+   text-decoration:none;
+   font-weight: bold;
+}
+
+h2 {
+   text-align: center;
+   padding-top: 1%;
+}
+
+img { /* 로고 화질 좋게  */
+   width: 50%;
+   height: 50%;
+   margin: auto;
+}
+
+#logo { /* 로고 이미지 크기 */
+   width: 15%;
+   height: 100%;
+   float:left;
+   margin-left: 10%;
+   display: flex;
+}
+
+.aside_box {
+   /* 메인에서 OO관리를 눌렀을 때 관리별 가지고 있는 기능이 달라 너비 높이 line-height는 알아서 조절하기를 권장 height을 잠정적으로 100%로 해놨지만 px로 값을 주길 권장*/
+   width: 100%;
+   height: 100%;
+   float: left;
+
+   /* background: rgba(100, 100, 100, 0.1); */
+}
+
+.aside_box>ol>li { /* include aside 부분 데코레이션 담당 */
+   display: flex;
+   flex-direction: row;
+   justify-content: space-around;
+   width: 100%;
+   height: 100%;
+   float: left;
+   text-align: center;
+   line-height: 70px;
+   font-weight: bold;
+}
+
+.aside_box>ol>li>button {
+   width: 100%;
+   height: 100%;
+   padding: 15%;
+   color: #000;
+   box-shadow: 0px 2px 1px  rgba(100, 100, 100, 0.6);
+   font-weight: bold;
+   border-radius: 0%;
+   border: 0px;
+}
+.aside_box>ol>li>button:hover{
+	background: #FE4365;
+	
+	box-shadow: 0px 3px 10px #FE4365;
+}
+
+a {
+   display: block;
+   text-decoration: none;
+}
+
+.funcc>form>div:nth-last-of-type(1){
+   margin-left: 42%;
+   margin-top: 1%;
+}
+#logo > a {
+	width: 100%;
+	height: 100%;
+	display: flex;
+}
+#btns_1,
+#btns_2,
+#btns_3{
+	width: 60px;
+	height: 30px;
+	background: rgba(254,67,101);
+	border:  rgba(254,67,101);
+}
+.btn-secondary {
+    color: #fff;
+    background-color: rgba(254,67,101);
+    border-color: rgba(254,67,101);
+}
+.btn-sm{
+	font-size: 5px;
+	background: rgba(254,67,101);
+	border-color: rgba(254,67,101);
+}
+.cancel{
+	float:right;
+	width:30px;
+	font-size: 18px;
+	background: rgba(254,67,101);
+	border-color: rgba(254,67,101);
+}
+
+#searchform {
+    float: right;
+    margin-top: 50px;
+    margin-bottom: 15px;
+    margin-right: 10px;
+}
+.search {
+    display: inline-flex;
+    align-items: center;
+}
+
+#inserth2{
+	margin-bottom: 68px;
+}
+#wrapper{
+	width: 100%;
+	height: 80%;
+}
+
+/* ㅇinfomation */
+
+#infowrapper {
+	width: 100%;
+	height: 100%;
+
+	display: flex;
+	
+}
+#infotable {
+	width: 80%;
+	height: 90%;
+	background: #fff;
+	margin: auto;	
+}
+#select1{
+	width: 50%;
+	height:10%;
+	float: left;
+	font-weight:bold;
+	border-radius:15%;
+	background: rgb(252, 201, 67,0.5);
+	transition:0.5s;
+}
+#select1:hover{
+	background: rgb(252, 201, 67);
+	box-shadow: 3px 3px 3px #000;
+}
+#select2{
+	width: 50%;
+	height:10%;
+	float: left;
+	font-weight:bold;
+	border-radius:15%;
+	background: rgb(128, 255, 0,0.5);
+	transition:0.5s;
+}
+#select2:hover{
+	background: rgb(128, 255, 0);
+	box-shadow: 3px 3px 3px #000;
+}
+#mol{
+	width: 100%;
+	height:10%;
+	clear:both;
+	background: #c0c0c0;
+}
+
+.graph{
+	width: 50%;
+	height:30%;
+	float: left;
+	display:flex;
+}
+.gpin{
+	width: 90%;
+	height: 90%;
+	margin:auto;
+
+}
+#gpin1,
+#gpin2,
+#gpin3,
+#gpin4{
+	width: 90%;
+	height: 90%;
+	margin:auto;
+}
+/*인사*/
+#teaminfo{
+	width: 100%;
+	height: 100%;
+	clear:both;
+	display:flex; 
+}
+
+td>img{
+	width: 250px;
+	height: 200px;
+}
+#teamtable tr:nth-child(3) td{
+	color:#fff;
+	font-weight: bold;
+	border-radius: 25%;
+}
+#teamtable tr:nth-child(3) td:nth-child(1) {
+	background: rgba(254,67,101,0.6);
+}
+#teamtable tr:nth-child(3) td:nth-child(2) {
+	background: #669AE1;
+}
+#teamtable tr:nth-child(3) td:nth-child(3) {
+	background: rgba(252, 145, 58, 0.8);
+}
+#teamtable tr:nth-child(3) td:nth-child(4) {
+	background: #8fd19e;
+}
+#teamtable tr:nth-child(3) td:nth-child(5) {
+	background: #007BFF;
+}
+#teaminfoin{
+	width: 70%;
+	height: 70%;
+	margin: auto;
+}
+#teaminfoin > table{
+	margin: auto;
+}
+.profileImg { /* 현수꺼 기준 */
+	width: 180px;
+	height: 250px;
+}
+.user_align{
+	text-align: center;
+}
+.page1{
+	width: 100%;
+	height: 75%
+}
+.page2{
+	width: 100%;
+	height: 40%;
+}
+.note_page{
+   width: 100%;
+   height: 80%;
+   overflow: auto;
+}
+#layout { /* 전부를 둘러싸고 있는 div */
+	width: 100%;
+	height: 100%;
+	margin-top:3%;
+}
+.noteImg{
+	width: 10%;
+	height: 85%;
+	margin-left:24.5%;
+	float: left;
+	text-align: center;
+}
+.noteImg>img{
+	width: 100%;
+	height: 100%;
+}
+.note_tb{
+	text-align: center;
+}
+.note_DD{
+	margin-top:1%;
+	float: right;
+}
+.note_SS{
+	margin-left: 44%;
+}

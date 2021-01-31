@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"https://logging.apache.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="erp.hhh.AttendanceMapper">
+	
+	<!--<select id="att_list" resultType="attVO">
+		select * from Attendance
+	</select>-->
+	
+	
+	<select id="att_detail" resultType="attVO" parameterType="hashMap">
+		<![CDATA[
+			select * from Attendance where att_num = #{user_num} and start_time > #{start_time} and end_time <=  #{start_end}
+			order by today
+		]]>
+	</select>
+	
+	<select id="att_detailPay" resultType="attVO" parameterType="hashMap">
+		<![CDATA[
+			select att_pay from Attendance where att_num = #{vo.user_num} and today >= #{start_today} and today <=  #{end_today}
+			order by today
+		]]>
+	</select>
+	
+	
+	<!-- 출퇴 시간 수정 -->
+	<update id="att_modify" parameterType="attVO">
+			update attendance 
+			set start_time = #{start_time}, end_time = #{end_time}
+			where att_num = #{att_num} and today = #{today}
+	</update>
+	
+	<!-- 출퇴 날짜 검색 -->
+	<select id="att_list" resultType="attVO" parameterType="java.lang.String">
+		<![CDATA[
+			select * from Attendance where start_time > #{start} and end_time <=  #{end}
+			order by today
+		]]>
+	</select>
+	
+	<!-- 삭제 -->
+	<delete id = "att_delete" parameterType="UserVO">
+		delete from Attendance where att_num = #{user_num}
+	</delete>
+	
+	<!-- 출근현황 -->
+	<select id="att_statusList" resultType="java.lang.Integer" parameterType="java.lang.String">
+		
+			select att_num from Attendance where today = #{today} and end_time IS null
+			<!-- select att_num from Attendance where today = #{today} -->
+			order by today
+		
+	</select>
+	
+	<!-- 월급 수정 -->
+	<update id="att_salModify" parameterType="hashMap">
+		<![CDATA[
+			update attendance 
+			set att_pay = #{vo.user_pay}
+			where att_num = #{vo.user_num} and today >= #{start_time} and today <  #{end_time}
+		]]>
+	</update>
+	
+	<!-- 출근버튼 -->
+	<insert id="att_startTime" parameterType="hashMap">
+		
+		INSERT INTO attendance (att_num, start_time, today, att_pay) 
+		values(#{vo.user_num}, #{start}, #{today}, #{vo.user_pay})
+		 
+	</insert>
+	
+	<!-- 퇴근버튼 -->
+	<update id="att_endTime" parameterType="hashMap">
+			update attendance 
+			set end_time = #{end}
+			where att_num = #{vo.user_num} and today = #{today}
+	</update>
+	
+	<!-- 오늘 출근 기록있는지 확인 -->
+	<select id="att_status" resultType="attVO" parameterType="hashMap">
+			select * from Attendance where today = #{today} and att_num = #{user_num}
+	</select>
+	
+	
+</mapper>
+

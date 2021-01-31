@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"https://logging.apache.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="erp.aaa.QlTestMapper">
+
+	
+	<!--검사현황 조건검색 !-->  
+	<select id="listSch" resultType="QlTestVO" parameterType="SearchVO">
+        select * from(select rownum rnum, t1.* from
+         (select * from qltest 
+         where pdcode like '%'||#{search1,jdbcType=VARCHAR}||'%' and       
+       	 qlpdname like '%'||#{search2,jdbcType=VARCHAR}||'%' and 
+		 qlstate like '%'||#{search3,jdbcType=VARCHAR}||'%' 
+         order by regdate desc
+		)t1) 
+       <![CDATA[	
+        where rnum >= #{searchstart} and rnum <= #{searchend}
+        ]]>
+	</select> 
+	
+	<!--검사현황 cnt검색   !	-->	
+	<select id="totalCnt3" resultType="java.lang.Integer" parameterType="SearchVO">
+		select count(*) from qltest
+		 where pdcode like '%'||#{search1,jdbcType=VARCHAR}||'%' and       
+       	 qlpdname like '%'||#{search2,jdbcType=VARCHAR}||'%' and 
+		 qlstate like '%'||#{search3,jdbcType=VARCHAR}||'%' 
+         order by regdate desc		
+	</select>
+	
+	<!--검사현황 상세정보   !	-->
+	<select id="detail" resultType="QlTestVO" parameterType="java.lang.String">
+		select * from qltest where pdcode = #{pdcode}
+	</select>
+	
+	<!--품질검사 등록   !-->
+	<insert id="insert" parameterType="QlTestVO">  
+		insert into qltest 
+		(
+		pdcode,
+		qlcode,
+		qlpdname,
+		qlcnt,
+		qlsamplecnt,
+		qlsuccnt,
+		qlfailcnt,		
+		qlprice,
+		testername,
+		qlway,
+		customer,
+		qlstate,
+		failreson,
+		regdate
+		)
+		 values
+		  (
+		  #{pdcode},
+		  #{qlcode},
+		  #{qlpdname},
+		  #{qlcnt},
+		  #{qlsamplecnt},
+		  #{qlsuccnt},
+		  #{qlfailcnt},
+		  #{qlprice,jdbcType=VARCHAR},
+		  #{testername,jdbcType=VARCHAR},
+		  #{qlway},
+		  #{customer},
+		  #{qlstate},
+		  #{failreson},
+		  sysdate
+		  )  	
+	</insert>
+	
+	<!--검사현황 불합or합격 >> 품질이력 테이블로 이동   !-->
+	<insert id="searchhisinsert" parameterType="QlTestVO">
+		INSERT INTO QLTESTHISTORY (qlcode , pdcode , qlpdname, qlcnt,qlsamplecnt,qlsuccnt,qlfailcnt, qlprice,testername,qlway, customer, qlstate ,failreson, regdate)
+		select qlcode , pdcode , qlpdname, qlcnt,qlsamplecnt,qlsuccnt,qlfailcnt, qlprice,testername,qlway, customer, qlstate ,failreson, regdate from qltest where pdcode=#{pdcode}
+	</insert>
+		
+	<!--검사현황 수정   !-->
+	<update id="searchmodify" parameterType="QlTestVO">
+	update qltest
+	<set>
+		<if test = "qlpdname !=null">qlpdname = #{qlpdname},</if>
+		<if test = "qlcnt !=null">qlcnt = #{qlcnt},</if>
+		<if test = "qlsamplecnt !=null">qlsamplecnt = #{qlsamplecnt},</if>
+		<if test = "qlfailcnt !=null">qlfailcnt = #{qlfailcnt},</if>
+		<if test = "qlsuccnt !=null">qlsuccnt = #{qlsuccnt},</if>
+		<if test = "qlcode !=null">qlcode = #{qlcode},</if>
+		<if test = "qlprice !=null">qlprice = #{qlprice},</if>
+		<if test = "testername !=null">testername = #{testername},</if>
+		<if test = "qlstate !=null">qlstate = #{qlstate},</if>
+		<if test = "customer !=null">customer = #{customer},</if>
+		<if test = "failreson !=null">failreson = #{failreson}</if>
+	</set>
+	where pdcode = #{pdcode}	
+	</update>
+	
+	
+	
+	<!--검사현황 삭제   !-->
+	<delete id = "delete" parameterType="QlTestVO">
+		delete from qltest where pdcode = #{pdcode}
+	</delete>
+	
+	<delete id = "deletetwo" parameterType="string">
+	delete 
+	from 
+	qltest 
+	where pdcode = #{vo}
+	</delete>
+	
+	<!-- QLtest에서 필요한 Inven code목록 뽑아오기 !-->
+	<select id="invenlist" resultType="InvenVO">
+		select code,qtt,name,cost from inven
+	</select>
+	<!-- QLtest에서 필요한 Inven 제품명 목록 뽑아오기 !-->
+	<select id="pdnamelist" resultType="InvenVO">
+		select name from inven
+	</select>
+	<!-- QLtest에서 필요한 QlTest 제품코드 목록 뽑아오기 !-->
+	<select id="pdcodelist" resultType="QlTestVO">
+		select pdcode from qltest 
+	</select>
+	<!-- QLtest에서 필요한 QlTestHistory 제품코드 목록 뽑아오기 !-->
+	<select id="pdcodelist2" resultType="QlTestHistoryVO">
+		select pdcode from qltesthistory 
+	</select>
+	<!-- QLtest에서 필요한 Correpondent 거래처 목록 뽑아오기 !-->
+	<select id="customerlist" resultType="CorrepondentVO">
+	 <![CDATA[	
+		select crre_name from correpondent 
+		 ]]>
+	</select>
+	<!-- QLtest에서 필요한 QlTest pdcode목록 뽑아오기 !-->
+	<select id="qlcodelist" resultType="QlTestVO">
+		select qlcode from qltest 
+	</select>
+	<!-- QLtest에서 필요한 QlTestHistory qlcode 뽑아오기 !-->
+	<select id="qlcodelist2" resultType="QlTestHistoryVO">
+		select qlcode from qltesthistory 
+	</select>
+	
+	
+</mapper>

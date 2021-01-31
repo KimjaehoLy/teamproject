@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"https://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="erp.bbb.DeadLineMapper">
+
+<select id="list" resultType="deadLineVO" parameterType="java.lang.Integer">
+	<![CDATA[
+	select * from(select rownum rnum, t1.* from 
+	(select * from marketing_4 order by order_num4 desc)t1) 
+	where rnum >= #{start} and rnum <= #{end}
+	]]>
+</select>
+	<select id="search" resultType="deadLineVO" parameterType="SearchVO">
+	<![CDATA[
+	select * from(select rownum rnum, t1.* from (select * from marketing_4
+	 WHERE order_num4 like '%'||#{search1,jdbcType=VARCHAR}||'%' and customer like '%'||#{search2,jdbcType=VARCHAR}||'%'
+	order by order_num4 desc) t1) 
+         where rnum >= #{searchstart} and rnum <= #{searchend}
+        ]]>	
+	</select>
+		<select id="searchCnt" resultType="java.lang.Integer" parameterType="SearchVO">
+		select count(*) from marketing_4 where order_num4 like '%'||#{search1,jdbcType=VARCHAR}||'%' and customer like '%'||#{search2,jdbcType=VARCHAR}||'%'
+	</select>
+
+	<select id="totalCnt" resultType="java.lang.Integer">
+		select count(*) from marketing_4
+	</select>
+	
+	<insert id="insert" parameterType="deadLineVO">
+	INSERT INTO marketing_4 (order_num4,customer,tex,end_kind,leader,regdate,chit,bill_num,content)VALUES(#{order_num4},#{customer},#{tex},#{end_kind},#{leader},sysdate,#{chit},#{bill_num},#{content})
+	</insert>
+	<update id="update" parameterType="deadLineVO">
+		<![CDATA[
+		update marketing_4 set customer = #{customer}, tex = #{tex}, end_kind= #{end_kind}, leader = #{leader}, content = #{content}, chit = #{chit}, bill_num = #{bill_num}  where order_num4 = #{order_num4}
+		]]>
+	</update>
+	<delete id = "delete" parameterType="deadLineVO">
+		delete from marketing_4 where order_num4 = #{order_num4}
+	</delete>
+	
+	<select id="chk1" resultType="java.lang.String"  parameterType="java.lang.String">
+	select crre_name from correpondent where crre_name=#{crre_name}
+</select>
+
+<select id="chk2" resultType="java.lang.String"  parameterType="java.lang.String">
+	select order_num4 from marketing_4 where order_num4 = #{order_num4}
+</select>
+</mapper>
+

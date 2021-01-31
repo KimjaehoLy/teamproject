@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"https://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="erp.bbb.ProcessingMapper">
+
+<select id="list" resultType="processingVO" parameterType="java.lang.Integer">
+	<![CDATA[
+	select * from(select rownum rnum, t1.* from 
+	(select * from marketing_6 order by o2 desc)t1) 
+	where rnum >= #{start} and rnum <= #{end}
+	]]>
+</select>
+<select id="search" resultType="processingVO" parameterType="SearchVO">
+	<![CDATA[
+	select * from(select rownum rnum, t1.* from (select * from marketing_6
+	 WHERE o2 like '%'||#{search1,jdbcType=VARCHAR}||'%' and customer like '%'||#{search2,jdbcType=VARCHAR}||'%'
+	order by o2 desc) t1) 
+         where rnum >= #{searchstart} and rnum <= #{searchend}
+        ]]>	
+	</select>
+	<select id="searchF" resultType="processingVO" parameterType="SearchVO">
+	<![CDATA[
+	select * from(select rownum rnum, t1.* from (select * from marketing_7
+	 WHERE o2 like '%'||#{search1,jdbcType=VARCHAR}||'%' and customer like '%'||#{search2,jdbcType=VARCHAR}||'%'
+	order by o2 desc) t1) 
+         where rnum >= #{searchstart} and rnum <= #{searchend}
+        ]]>	
+	</select>
+	
+		<select id="searchCnt" resultType="java.lang.Integer" parameterType="SearchVO">
+		select count(*) from marketing_6 where o2 like '%'||#{search1,jdbcType=VARCHAR}||'%' and customer like '%'||#{search2,jdbcType=VARCHAR}||'%'
+	</select>
+	<select id="searchCntF" resultType="java.lang.Integer" parameterType="SearchVO">
+		select count(*) from marketing_7 where o2 like '%'||#{search1,jdbcType=VARCHAR}||'%' and customer like '%'||#{search2,jdbcType=VARCHAR}||'%'
+	</select>
+
+	<select id="totalCnt" resultType="java.lang.Integer">
+		select count(*) from marketing_6
+	</select>
+	<select id="totalCntF" resultType="java.lang.Integer">
+		select count(*) from marketing_7
+	</select>
+	
+	<select id="detail" resultType="processingVO" parameterType="processingVO">
+	SELECT * FROM marketing_6 WHERE O2 = outno AND o2 = #{o2}
+	</select>
+	<select id="detailf" resultType="processingVO" parameterType="processingVO">
+		<![CDATA[
+			SELECT * FROM marketing_7 WHERE O2 = outno AND o2 = #{o2}
+		]]>
+	</select>
+<select id="listf" resultType="processingVO" parameterType="java.lang.Integer">
+	<![CDATA[
+		select * from(select rownum rnum, t1.* from 
+		(select * from marketing_7 order by o2 desc)t1) 
+		where rnum >= #{start} and rnum <= #{end}
+	]]>
+</select>
+</mapper>
+

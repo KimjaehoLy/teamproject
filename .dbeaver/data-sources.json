@@ -1,0 +1,57 @@
+{
+	"folders": {},
+	"connections": {
+		"oracle_thin-176520f1461-41eb58f806583c1b": {
+			"provider": "oracle",
+			"driver": "oracle_thin",
+			"name": "web",
+			"save-password": true,
+			"show-system-objects": true,
+			"read-only": false,
+			"configuration": {
+				"host": "localhost",
+				"port": "1521",
+				"database": "xe",
+				"url": "jdbc:oracle:thin:@//localhost:1521/xe",
+				"home": "C:\\oraclexe\\app\\oracle\\product\\11.2.0\\server",
+				"type": "dev",
+				"provider-properties": {
+					"@dbeaver-check-schema-content@": "false",
+					"@dbeaver-always-show-dba@": "false",
+					"@dbeaver-always-use-dba-views@": "false",
+					"@dbeaver-meta-use-sys-schema@": "false",
+					"@dbeaver-meta-use-simple-constraints@": "false",
+					"@dbeaver-use-rule-hint@": "false",
+					"@dbeaver-use-meta-optimizer@": "false",
+					"@dbeaver-meta-use-alternative-table-query@": "false",
+					"@dbeaver-connection-type@": "BASIC",
+					"@dbeaver-sid-service@": "SERVICE"
+				},
+				"auth-model": "oracle_native"
+			}
+		}
+	},
+	"virtual-models": {
+		"oracle_thin-176520f1461-41eb58f806583c1b": {
+			"WEB": {
+				":CORREPONDENT": {
+					"properties": {
+						"erd.diagram.state": {
+							"serialized": "<diagram version=\"1\" name=\"CORREPONDENT\" time=\"202012202324\"><entities><data-source id=\"oracle_thin-176520f1461-41eb58f806583c1b\"><entity id=\"1\" name=\"CORREPONDENT\" fq-name=\"WEB.CORREPONDENT\" order=\"0\" color-bg=\"255,128,64\" x=\"778\" y=\"923\"><path name=\"WEB\"/></entity><entity id=\"2\" name=\"INVEN\" fq-name=\"WEB.INVEN\" order=\"1\" x=\"979\" y=\"1084\"><path name=\"WEB\"/></entity><entity id=\"3\" name=\"INVEN_OUT\" fq-name=\"WEB.INVEN_OUT\" order=\"2\" x=\"234\" y=\"538\"><path name=\"WEB\"/></entity><entity id=\"4\" name=\"QLTESTHISTORY\" fq-name=\"WEB.QLTESTHISTORY\" order=\"3\" x=\"713\" y=\"524\"><path name=\"WEB\"/></entity><entity id=\"5\" name=\"INVEN_OUT\" fq-name=\"WEB.INVEN_OUT\" order=\"4\" x=\"232\" y=\"950\"><path name=\"WEB\"/></entity><entity id=\"6\" name=\"MARKETING_4\" fq-name=\"WEB.MARKETING_4\" order=\"5\" x=\"969\" y=\"773\"><path name=\"WEB\"/></entity><entity id=\"7\" name=\"MARKETING_5\" fq-name=\"WEB.MARKETING_5\" order=\"6\" x=\"439\" y=\"900\"><path name=\"WEB\"/></entity><entity id=\"8\" name=\"MARKETING_2\" fq-name=\"WEB.MARKETING_2\" order=\"7\" x=\"439\" y=\"661\"><path name=\"WEB\"/></entity><entity id=\"9\" name=\"MARKETING_1\" fq-name=\"WEB.MARKETING_1\" order=\"8\" x=\"435\" y=\"1136\"><path name=\"WEB\"/></entity><entity id=\"10\" name=\"QLTEST\" fq-name=\"WEB.QLTEST\" order=\"9\" x=\"1155\" y=\"909\"><path name=\"WEB\"/></entity></data-source></entities><relations><relation name=\"FK_CLIENT\" fq-name=\"WEB.INVEN.FK_CLIENT\" type=\"fk\" pk-ref=\"1\" fk-ref=\"2\"/><relation name=\"FK_CLIENT2\" fq-name=\"WEB.INVEN_OUT.FK_CLIENT2\" type=\"fk\" pk-ref=\"1\" fk-ref=\"3\"/><relation name=\"FK_CORREPONDENT2\" fq-name=\"WEB.QLTESTHISTORY.FK_CORREPONDENT2\" type=\"fk\" pk-ref=\"1\" fk-ref=\"4\"/><relation name=\"FK_CLIENT2\" fq-name=\"WEB.INVEN_OUT.FK_CLIENT2\" type=\"fk\" pk-ref=\"1\" fk-ref=\"5\"/><relation name=\"FK_CUSTOMER3\" fq-name=\"WEB.MARKETING_4.FK_CUSTOMER3\" type=\"fk\" pk-ref=\"1\" fk-ref=\"6\"/><relation name=\"FK_CORR\" fq-name=\"WEB.MARKETING_5.FK_CORR\" type=\"fk\" pk-ref=\"1\" fk-ref=\"7\"/><relation name=\"FK_CUSTOMER2\" fq-name=\"WEB.MARKETING_2.FK_CUSTOMER2\" type=\"fk\" pk-ref=\"1\" fk-ref=\"8\"/><relation name=\"FK_CUSTOMER\" fq-name=\"WEB.MARKETING_1.FK_CUSTOMER\" type=\"fk\" pk-ref=\"1\" fk-ref=\"9\"/><relation name=\"FK_CORREPONDENT\" fq-name=\"WEB.QLTEST.FK_CORREPONDENT\" type=\"fk\" pk-ref=\"1\" fk-ref=\"10\"/><relation name=\"FK_INVEN\" fq-name=\"WEB.QLTEST.FK_INVEN\" type=\"fk\" pk-ref=\"2\" fk-ref=\"10\"/><relation name=\"FK_MARKETING_2\" fq-name=\"WEB.INVEN_OUT.FK_MARKETING_2\" type=\"fk\" pk-ref=\"8\" fk-ref=\"3\"/><relation name=\"FK_MARKETING_2\" fq-name=\"WEB.INVEN_OUT.FK_MARKETING_2\" type=\"fk\" pk-ref=\"8\" fk-ref=\"5\"/></relations></diagram>"
+						}
+					}
+				}
+			}
+		}
+	},
+	"connection-types": {
+		"dev": {
+			"name": "Development",
+			"color": "255,255,255",
+			"description": "Regular development database",
+			"auto-commit": true,
+			"confirm-execute": false,
+			"confirm-data-change": false
+		}
+	}
+}

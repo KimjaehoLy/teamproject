@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"https://logging.apache.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="erp.jjj.CorrepondentMapper">
+
+
+	<select id="list" resultType="CorrepondentVO" parameterType="java.lang.Integer">
+	<![CDATA[
+		select * from(select rownum rnum, t1.* from 
+        (select * from correpondent)t1) 
+        where rnum >= #{start} and rnum <= #{end}
+        ]]>
+	</select>
+	
+	<select id="totalCnt" resultType="java.lang.Integer">
+		select count(*) from correpondent
+	</select>
+	
+	<select id="search" resultType="CorrepondentVO" parameterType="SearchVO">
+	<![CDATA[
+        select * from(select rownum rnum, t1.* from
+         (select * from correpondent WHERE crre_code like '%'||#{search,jdbcType=VARCHAR}||'%') t1) 
+         where rnum >= #{searchstart} and rnum <= #{searchend}
+        ]]>
+	</select>
+	
+	<select id="searchCnt" resultType="java.lang.Integer" parameterType="SearchVO">
+		select count(*) from correpondent where crre_code like '%'||#{search,jdbcType=VARCHAR}||'%'
+	</select>
+	
+	<select id="detail" resultType="CorrepondentVO" parameterType="java.lang.Integer">
+		select * from correpondent where crre_code = #{crre_code}
+	</select>
+	
+
+	<insert id="insert" parameterType="CorrepondentVO">
+		<selectKey resultType="java.lang.Integer" order="BEFORE">
+		</selectKey> 
+		insert into correpondent 
+		(crre_name, crre_number ,crre_detail, crre_code)
+		values
+		(#{crre_name,jdbcType=VARCHAR}, #{crre_number,jdbcType=VARCHAR}, #{crre_detail,jdbcType=VARCHAR}, #{crre_code,jdbcType=VARCHAR})
+	</insert>
+	
+	<update id="modify" parameterType="CorrepondentVO">
+		UPDATE correpondent SET crre_name=#{crre_name,jdbcType=VARCHAR},crre_number =#{crre_number,jdbcType=INTEGER},crre_detail=#{crre_detail,jdbcType=VARCHAR},crre_code=#{crre_code,jdbcType=INTEGER} WHERE crre_code=#{crre_code} 
+	</update>
+	
+	
+	<delete id = "delete" parameterType="CorrepondentVO">
+		delete from correpondent where crre_code = #{crre_code}
+	</delete>
+	
+	<select id="sulist" resultType="java.lang.Integer" parameterType="string">
+		select count(*) from marketing_1 where customer = #{cos}
+
+	</select>
+	
+	
+	<select id="corrchk" resultType="java.lang.Integer" parameterType="string">
+		select count(*) from correpondent where CRRE_NAME = #{name,jdbcType=VARCHAR} or CRRE_CODE = #{code,jdbcType=VARCHAR} or CRRE_NUMBER = #{num,jdbcType=VARCHAR}
+	</select>
+	
+</mapper>

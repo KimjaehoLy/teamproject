@@ -1,0 +1,100 @@
+@charset "UTF-8";
+
+#wrapper{
+	width: 100%;
+	height: 100%;
+
+}
+.button>input{
+	float: right;
+	width: 50px;
+	height: 30px;
+	margin: 0 5px;
+}
+.big{
+	width: 100%;
+	height: 100%;
+}
+.small{
+	width: 100%;
+	height: 50%;
+	overflow: scroll;	
+}
+.top{
+	width: 100%;
+	height: 40px;
+	text-align: center;
+	font-weight: bold;
+	border: none;
+}
+.big>.small>.middle{
+	width: 100%;
+	height: 40px;
+	text-align: center;
+}
+
+table td{
+	box-sizing:border-box;
+	/* border: 2px solid #000; */
+}
+table+div[class=big]>div[class=small]>table td{
+	box-sizing:border-box;
+	/* border: 1px solid; */
+	padding: 0px;
+	text-align: center;
+}
+
+.insert{
+	width: 100%;
+	height: 39.5%;
+	display: flex;
+
+}
+.insert-table{
+	width:100%;
+	height:100%;
+	text-align:center;
+	border: 2px solid ;
+	box-sizing: border-box;
+
+}
+
+.tot{
+	width:100%;
+	height:8%;
+}
+table[class=insert-table] td:nth-child(1),
+table[class=insert-table] td:nth-child(3) {
+	border: 3px solid ;
+	font-weight: bold;
+}
+table > tr > th{
+	background: #fff;
+}
+#search {
+	float:right;
+	
+}
+
+.table thead th {
+vertical-align: middle;
+}
+#btns_1{
+	width: 60px;
+	height: 30px;
+	background: rgba(254,67,101);
+	border:  rgba(254,67,101);
+}
+.btn-sm{
+	font-size: 5px;
+	background: rgba(254,67,101);
+	border-color: rgba(254,67,101);
+}
+.table .thead-dark th{
+	background: rgba(254,67,101,0.7);
+	border-color:  rgba(254,67,101,0.7);
+}
+
+.table:nth-of-type(3) {
+	border: 1px solid rgba(254,67,101,0.7); 
+}
